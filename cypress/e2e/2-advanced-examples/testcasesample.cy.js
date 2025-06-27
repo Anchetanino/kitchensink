@@ -38,105 +38,114 @@ context('My First Test Case', () => {
   //     })
   // })
 
-  // it('sets and gets a token from local storage', () => {
-  //     cy.setLocalStorage('Token', token)
-  //     cy.getLocalStorage('Token').should('eq', token)
-  // })
+  it('sets and gets a token from local storage', () => {
+    cy.setLocalStorage('Token', token)
+    cy.getLocalStorage('Token').should('eq', token)
+  })
 
-  // it('overwrites the type commans by sensitive char', () => {
-  //     cy.visit('/commands/actions')
-  //     cy.findByPlaceholderText('Email').type('TEST@EMAIL.COM')
-  //     cy.findByPlaceholderText('Email').type('12345', { sensitive: true })
+  it('overwrites the type commans by sensitive char', () => {
+    cy.visit('/commands/actions')
+    cy.findByPlaceholderText('Email').type('TEST@EMAIL.COM')
+    cy.findByPlaceholderText('Email').type('12345', { sensitive: true })
+  })
 
-  // })
+  it('Pulls data from fixture', () => {
+    cy.fixture('example').then((data) => {
+      cy.log('DATA: ', data)
+    })
+  })
 
-  // it('Pulls data from fixture', () => {
-  //     cy.fixture('example').then((data) => {
-  //         cy.log('DATA: ', data)
-  //     })
+  it('updated fixtures data through here', () => {
+    cy.fixture('example').then((data) => {
+      data.email = 'update@email.com'
+      cy.log('DATA:', data)
+    })
+  })
 
-  // })
+  it('uses fixture data in a network request', function () {
+    cy.visit('/commands/network-requests')
+    cy.intercept('GET', '**/comments/*', this.data).as('getComment')
+    cy.get('.network-btn').click()
+    cy.wait('@getComment').then((res) => {
+      cy.log('Response: ', res)
+    })
+  })
 
-  // it('updated fixtures data through here', () => {
-  //     cy.fixture('example').then((data) => {
-  //         data.email = 'update@email.com'
-  //         cy.log('DATA:', data)
-  //     })
-  // })
+  before(() => {
+    cy.request('https://api.spacexdata.com/v3/missions').its('body').should('have.length', 10)
+  })
 
-  // it('uses fixture data in a network request', function() {
-  //         cy.visit('/commands/network-requests')
-  //         cy.intercept('GET', '**/comments/*', this.data).as('getComment')
-  //         cy.get('.network-btn').click()
-  //         cy.wait('@getComment').then((res) => {
-  //             cy.log('Response: ', res)
-  //         })
-  //     })
-  // before(() => {
-  //     cy.request('https://api.spacexdata.com/v3/missions').its('body').should('have.length', 10)
-  // })
+  after(() => {
+    cy.log('After is being used here')
+  })
 
-  // after(() => {
-  //     cy.log('After is being used here')
-  // })
-  // afterEach(() => {
-  //     cy.log('After each is being used here')
-  // })
-  // it('H1 is available in the page', () => {
-  //     cy.get('h1').should('exist');
-  // })
-  // it('h1 contains the correct text Actions', () => {
-  //         cy.get('h1').should('contain.text', 'Kitchen')
-  // })
-  // it('Renders a paragraph under h1', () => {
-  //     cy.get('.container').eq(1).find('p').should('exist')
-  // })
-  // it('renders section with correct elements', () => {
-  //     cy.get('.container').eq(2).within(() => {
-  //         cy.get('h4').should('exist')
-  //         cy.get('p').should('exist')
-  //     })
-  // })
-  // it('Correctly renders the cypress website link', () => {
-  //     cy.findByText(navbarText).should('exist')
-  // })
-  // it('Correctly renders in finding text in the paragraph', () => {
-  //     cy.get('.container').eq(2).within(() => {
-  //         cy.findByText('Commands').should('exist')
-  //     })
-  // })
+  afterEach(() => {
+    cy.log('After each is being used here')
+  })
+
+  it('H1 is available in the page', () => {
+    cy.get('h1').should('exist')
+  })
+
+  it('h1 contains the correct text Actions', () => {
+    cy.get('h1').should('contain.text', 'Kitchen')
+  })
+
+  it('Renders a paragraph under h1', () => {
+    cy.get('.container').eq(1).find('p').should('exist')
+  })
+
+  it('renders section with correct elements', () => {
+    cy.get('.container').eq(2).within(() => {
+      cy.get('h4').should('exist')
+      cy.get('p').should('exist')
+    })
+  })
+
+  it('Correctly renders the cypress website link', () => {
+    cy.findByText(navbarText).should('exist')
+  })
+
+  it('Correctly renders in finding text in the paragraph', () => {
+    cy.get('.container').eq(2).within(() => {
+      cy.findByText('Commands').should('exist')
+    })
+  })
+
   // it('types into an email field', () => {
-  //     cy.visit('/commands/actions')
-  //     cy.findByPlaceholderText('Email').type('test@email.com')
-  //     cy.wait(2000).then(() => {
-  //             console.log('Complete after the wait 5000')
-  //             fetch('https://api.spacexdata.com/v3/missions')
-  //                 .then((res) => res.json())
-  //                 .then((data) => {
+  //   cy.visit('/commands/actions')
+  //   cy.findByPlaceholderText('Email').type('test@email.com')
+  //   cy.wait(2000).then(() => {
+  //     console.log('Complete after the wait 5000')
+  //     fetch('https://api.spacexdata.com/v3/missions')
+  //                   .then((res) => res.json())
+  //                   .then((data) => {
   //                     console.log(data)
-  //                 })
-  //         })
-  //         // console.log('test is finished')
-  //         // cy.log('test is completed')
+  //                   })
+  //   })
+  //   // console.log('test is finished')
+  //   // cy.log('test is completed')
   // })
 
-  // it('shows an active class for the current page', () => {
-  //     cy.visit('/commands/actions')
-  //     cy.get('.dropdown-menu').find('li').eq(2).should('have.class', 'active')
-  // })
+  it('shows an active class for the current page', () => {
+    cy.visit('/commands/actions')
+    cy.get('.dropdown-menu').find('li').eq(2).should('have.class', 'active')
+  })
 
-  // it('should not have an active class on inactive pages', () => {
-  //     cy.visit('/commands/actions')
-  //     cy.get('.dropdown-menu').find('li').first()
-  //         .should('not.have.class', 'active')
-  //         .find('a')
-  //         .should('have.attr', 'href', '/commands/querying')
-  // })
-  // it('links to the actions page correctly', () => {
-  //     cy.visit('/')
-  //     cy.findAllByText('Actions').first().click({ force: true })
-  //     cy.url().should('include', 'commands/actions')
-  // })
+  it('should not have an active class on inactive pages', () => {
+    cy.visit('/commands/actions')
+    cy.get('.dropdown-menu').find('li').first()
+            .should('not.have.class', 'active')
+            .find('a')
+            .should('have.attr', 'href', '/commands/querying')
+  })
+
+  it('links to the actions page correctly', () => {
+    cy.visit('/')
+    cy.findAllByText('Actions').first().click({ force: true })
+    cy.url().should('include', 'commands/actions')
+  })
+
   // it('type in the input field', () => {
   //     cy.visit('/commands/actions')
   //     cy.findByPlaceholderText('Email').type('TEst').should('have.value', 'TEst')
@@ -149,7 +158,7 @@ context('My First Test Case', () => {
   // })
 
   // it('check on checkbox', () => {
-  //     cy.visit('/commands/actions')
-  //     cy.get('.action-checkboxes [type="checkbox"]').eq(1).check({ force: true }).should('be.checked')
+  //   cy.visit('/commands/actions')
+  //   cy.get('.action-checkboxes [type="checkbox"]').eq(1).check({ force: true }).should('be.checked')
   // })
 })
