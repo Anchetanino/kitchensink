@@ -1,0 +1,17 @@
+name: Cypess Tests
+
+on: [push]
+
+jobs: 
+  cypress-run:
+  runs-on:  chrome-latest
+  steps:
+    - name: Checkout
+      uses: actions/checkour@v2
+
+    - name: Cypress run
+      uses: cypress-io/github-action@v2
+      with:
+        build: npm run build
+        Start: npm start
+        

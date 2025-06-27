@@ -50,7 +50,9 @@ $(() => {
     $('.rightclick-action-input-hidden').removeClass('hidden').focus()
     $(e.currentTarget).addClass('hidden')
   })
-
+  $('.dropdown-toggle').hover(() => {
+    $('li.active').addClass('open')
+  })
   // listen to focus to demonstrate logic on focus command
   $('.action-focus').on('focus', (e) => {
     $(e.currentTarget).addClass('focus')
@@ -68,8 +70,8 @@ $(() => {
     e.preventDefault()
 
     $('<p>Your form has been submitted!</p>')
-    .insertAfter(e.currentTarget)
-    .css('color', '#20B520')
+            .insertAfter(e.currentTarget)
+            .css('color', '#20B520')
   })
 
   // hide this div so we can invoke show later
