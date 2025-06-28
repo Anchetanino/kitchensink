@@ -146,10 +146,10 @@ context('My First Test Case', () => {
         cy.url().should('include', 'commands/actions')
     })
 
-    // it('type in the input field', () => {
-    //     cy.visit('/commands/actions')
-    //     cy.findByPlaceholderText('Email').type('TEst').should('have.value', 'TEst')
-    // })
+    it('type in the input field', () => {
+        cy.visit('/commands/actions')
+            //  cy.findByPlaceholderText('Email').type('TEst').should('have.value', 'TEst')
+    })
 
     // it('Clear an input fields', () => {
     //     cy.visit('/commands/actions')
