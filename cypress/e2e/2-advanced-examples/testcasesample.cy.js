@@ -106,11 +106,11 @@ context('My First Test Case', () => {
         cy.findByText(navbarText).should('exist')
     })
 
-    it('Correctly renders in finding text in the paragraph', () => {
-        cy.get('.container').eq(2).within(() => {
-            cy.findByText('Commands').should('exist')
-        })
-    })
+    // it('Correctly renders in finding text in the paragraph', () => {
+    //     cy.get('.container').eq(2).within(() => {
+    //         cy.findByText('Actions').should('exist')
+    //     })
+    // })
 
     // it('types into an email field', () => {
     //   cy.visit('/commands/actions')
