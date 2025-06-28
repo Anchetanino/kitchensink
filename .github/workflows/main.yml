@@ -1,17 +1,28 @@
-name: Cypess Tests
+name: Cypress Tests
 
 on: [push]
 
-jobs: 
+jobs:
   cypress-run:
-  runs-on:  chrome-latest
-  steps:
-    - name: Checkout
-      uses: actions/checkour@v2
+    runs-on: ubuntu-latest
 
-    - name: Cypress run
-      uses: cypress-io/github-action@v2
-      with:
-        build: npm run build
-        Start: npm start
-      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start server
+        run: npm start &
+        env:
+          CI: true
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v2
+        with:
+          wait-on: 'http://localhost:8080'
+          wait-on-timeout: 60
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
